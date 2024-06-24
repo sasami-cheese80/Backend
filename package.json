@@ -4,16 +4,26 @@
   "description": "## Ver01",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.ts"
+    "test": "mocha --require ts-node/register --watch-extensions ts \"test/**/*.ts\"",
+    "start": "nodemon index.ts",
+    "makeMigration": "knex migrate:make",
+    "makeSeed": "knex seed:make",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "dev": "npm run migrate && nodemon index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.7",
+    "axios": "^1.7.2",
+    "chai": "^4.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "knex": "^3.1.0",
+    "mocha": "^10.4.0",
     "nodemon": "^3.1.4",
     "pg": "^8.12.0"
   },
