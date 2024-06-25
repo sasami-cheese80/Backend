@@ -2,10 +2,14 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "## Ver01",
-  "main": "index.ts",
+  "main": "dist/index",
+  "engines": {
+    "node": "20.12.0",
+    "npm": "10.5.0"
+  },
   "scripts": {
     "test": "mocha --require ts-node/register --watch-extensions ts \"test/**/*.ts\"",
-    "start": "npm i && node ./dist/index.js",
+    "start": "node dist/index.js",
     "makeMigration": "knex migrate:make",
     "makeSeed": "knex seed:make",
     "migrate": "knex migrate:latest",
