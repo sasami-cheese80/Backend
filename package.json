@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "mocha --require ts-node/register --watch-extensions ts \"test/**/*.ts\"",
-    "start": "node index.ts",
+    "start": "npm i && node index.ts",
     "makeMigration": "knex migrate:make",
     "makeSeed": "knex seed:make",
     "migrate": "knex migrate:latest",
