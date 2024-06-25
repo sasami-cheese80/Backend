@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import router from "./router/index";
+
 const app: express.Express = express();
 
 // Add a list of allowed origins.
@@ -8,10 +10,12 @@ const allowedOrigins = ["http://localhost:3000"];
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
 };
+
 // Then pass these options to cors:
 app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(require("./router/index"));
-module.exports = app;
+app.use("/", router);
+
+export default app;
