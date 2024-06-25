@@ -1,4 +1,4 @@
-const app = require("./server.ts");
+import app from "./server";
 
 // 起動するだけ
 const PORT = process.env.PORT || 3000;

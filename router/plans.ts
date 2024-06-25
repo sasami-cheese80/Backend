@@ -7,4 +7,4 @@ router.get("/", async (req: express.Request, res: express.Response) => {
   res.send(data);
 });
 
-module.exports = router;
+export default router;
