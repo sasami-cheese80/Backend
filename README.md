@@ -20,3 +20,10 @@
 `npm run dev`  
 6.(任意)テストデータを挿入したい場合は seed を実行
 `npm run seed`
+
+## エンドポイントの説明
+
+| エンドポイント | メソッド |               TH 右寄せ                |
+| :------------: | :------: | :------------------------------------: |
+|     /users     |   GET    | [{id,name,nickname,gender,department}] |
+|     /plans     |   GET    |      [{id,date,address,user_id}]       |

@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
 
-router.use("/helohelo", require("./helohelo"));
-router.use("/users", require("./user"));
+router.use("/plans", require("./plans"));
+router.use("/users", require("./users"));
 module.exports = router;
