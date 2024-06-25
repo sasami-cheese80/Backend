@@ -9,6 +9,7 @@ exports.up = function (knex) {
     table.string("nickname");
     table.string("gender");
     table.string("department");
+    table.string("address");
   });
 };
 

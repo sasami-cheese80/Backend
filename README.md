@@ -23,7 +23,7 @@
 
 ## エンドポイントの説明
 
-| エンドポイント | メソッド |                response                |
-| :------------: | :------: | :------------------------------------: |
-|     /users     |   GET    | [{id,name,nickname,gender,department}] |
-|     /plans     |   GET    |      [{id,date,address,user_id}]       |
+| エンドポイント | メソッド |                    response                    |
+| :------------: | :------: | :--------------------------------------------: |
+|     /users     |   GET    | [{id,name,nickname,gender,department,address}] |
+|     /plans     |   GET    |              [{id,date,user_id}]               |
