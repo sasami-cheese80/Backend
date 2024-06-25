@@ -15,7 +15,7 @@
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
     "dev": "npm run migrate && nodemon index.ts",
-    "heroku-postbuild": "npm install && npm run migrate && npm run seed && ts-node index"
+    "heroku-postbuild": "npm install && npm run migrate && npm run seed"
   },
   "author": "",
   "license": "ISC",
