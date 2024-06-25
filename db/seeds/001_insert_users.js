@@ -12,6 +12,7 @@ exports.seed = async function (knex) {
       nickname: "ゲンドウ",
       gender: "男性",
       department: "車両技術開発部 シャシーコンポーネント試験課",
+      address: "岡崎方面",
     },
   ]);
 };
