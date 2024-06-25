@@ -27,3 +27,23 @@
 | :------------: | :------: | :--------------------------------------------: |
 |     /users     |   GET    | [{id,name,nickname,gender,department,address}] |
 |     /plans     |   GET    |              [{id,date,user_id}]               |
+
+## スキーマ設計
+
+<img src="./schema.png" />
+
+### テーブル説明
+
+<dl>
+    <dt>users</dt>
+    <dd>id:一意のid</dd>
+    <dd>name:名前</dd>
+    <dd>nickname:ニックネーム</dd>
+    <dd>gender:性別（男性or女性）</dd>
+    <dd>department:所属部署名(⚪︎⚪︎部⚪︎⚪︎課)</dd>
+    <dt>plans</dt>
+    <dd>id:一意のid</dd>
+    <dd>date:日付(2024-05-01 22:00:00)</dd>
+    <dd>user_id:どのユーザーか判別</dd>
+    
+</dl>
