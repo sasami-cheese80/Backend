@@ -6,7 +6,6 @@ exports.up = function (knex) {
   return knex.schema.createTable("plans", function (table) {
     table.increments("id").primary();
     table.timestamp("date");
-    table.integer("user_id");
     table.string("state");
     table.integer("users_count");
   });
