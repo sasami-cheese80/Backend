@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import firebaseRouter from "./firebase";
+// import firebaseRouter from "./firebase";
 import plansRouter from "./plans";
 import plansUsersRouter from "./plans_users";
 import usersRouter from "./users";
@@ -18,5 +18,5 @@ router.use("/plans_users", plansUsersRouter);
 router.use("/plans_post", plansPostRouter);
 //-------------------------------------------
 
-router.use("/firebase", firebaseRouter);
+// router.use("/firebase", firebaseRouter);
 export default router;
