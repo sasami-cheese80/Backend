@@ -5,11 +5,11 @@
 exports.up = function (knex) {
   return knex.schema.createTable("users", function (table) {
     table.increments("id").primary();
-    table.string("name");
-    table.string("nickname");
-    table.string("gender");
-    table.string("department");
-    table.string("address");
+    table.string("name").notNullable();
+    table.string("nickname").notNullable();
+    table.string("gender").notNullable();
+    table.string("department").notNullable();
+    table.string("address").notNullable();
   });
 };
 
