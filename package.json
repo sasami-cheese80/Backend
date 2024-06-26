@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "## Ver01",
-  "main": "dist/index",
+  "main": "index",
   "engines": {
     "node": "20.12.0",
     "npm": "10.5.0"
