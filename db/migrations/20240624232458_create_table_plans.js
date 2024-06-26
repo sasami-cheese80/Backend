@@ -5,9 +5,9 @@
 exports.up = function (knex) {
   return knex.schema.createTable("plans", function (table) {
     table.increments("id").primary();
-    table.timestamp("date");
-    table.string("state");
-    table.integer("users_count");
+    table.timestamp("date").notNullable();
+    table.string("state").notNullable();
+    table.integer("users_count").notNullable();
   });
 };
 
