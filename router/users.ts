@@ -11,19 +11,27 @@ router.get("/", async (req: express.Request, res: express.Response) => {
 router.post("/", async (req: express.Request, res: express.Response) => {
   console.log("users POSTを受け付けました");
   const reqData = req.body;
-  console.log("reqData: ", reqData);
-  const newUserId = await knex("users").insert(reqData).returning("id");
-
-  res.json(
-    `${reqData.name}さんの情報は id:${newUserId[0].id} でusersに登録しました`
-  );
+  const isData = await knex("users").select().where(reqData).first();
+  if (isData) {
+    res.status(406).json({ error: "すでにアカウントが存在しています" });
+  } else {
+    const newUserId = await knex("users").insert(reqData).returning("id");
+    res.json(
+      `${reqData.name}さんの情報は id:${newUserId[0].id} でusersに登録しました`
+    );
+  }
 });
 
 router.delete("/", async (req: express.Request, res: express.Response) => {
   console.log("users DELETEを受け付けました");
   const userId = req.query.user_id;
-  await knex("users").where("id", userId).del();
-  res.json(`id:${userId}を削除しました`);
+  const isData = await knex("users").select().where("id", userId).first();
+  if (isData) {
+    await knex("users").where("id", userId).del();
+    res.json(`id:${userId}を削除しました`);
+  } else {
+    res.status(406).json({ error: "IDが存在しません" });
+  }
 });
 
 export default router;
