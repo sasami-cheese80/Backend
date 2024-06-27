@@ -1,5 +1,6 @@
 import { log } from "console";
 import express from "express";
+import { resourceLimits } from "worker_threads";
 const knex = require("../db/index");
 const router = express.Router();
 
@@ -18,25 +19,25 @@ router.post("/", async (req: express.Request, res: express.Response) => {
     state: string;
     users_count: number;
   };
-  const resData: ResDataObj = await knex("plans")
+  const resPlansData: ResDataObj = await knex("plans")
     .select()
     .where("date", date)
     .andWhere("state", "募集中")
     .first();
 
-  if (resData) {
-    console.log(`plan_id${resData.id} の部屋に参加します`);
+  if (resPlansData) {
+    console.log(`plan_id${resPlansData.id} の部屋に参加します`);
     try {
       await knex("plans_users").insert({
-        plan_id: resData.id,
+        plan_id: resPlansData.id,
         user_id: userId,
       });
-      resData.users_count += 1;
-      if (resData.users_count === 4) {
-        resData.state = "終了";
+      resPlansData.users_count += 1;
+      if (resPlansData.users_count === 4) {
+        resPlansData.state = "終了";
       }
-      await knex("plans").update(resData).where("id", resData.id);
-      res.status(200).json(resData);
+      await knex("plans").update(resPlansData).where("id", resPlansData.id);
+      res.status(200).json(resPlansData);
     } catch (e) {
       res.status(406).json(e);
     }
@@ -62,4 +63,48 @@ router.post("/", async (req: express.Request, res: express.Response) => {
   }
 });
 
+router.delete("/", async (req: express.Request, res: express.Response) => {
+  const userId = req.body.user_id;
+  const planId = req.body.plan_id;
+  console.log("planId: ", planId);
+
+  const isData = await knex("plans_users")
+    .select()
+    .where({
+      user_id: userId,
+      plan_id: planId,
+    })
+    .first();
+  if (isData) {
+    try {
+      await knex("plans_users")
+        .where({
+          user_id: userId,
+          plan_id: planId,
+        })
+        .del();
+
+      const resPlansData = await knex("plans")
+        .select()
+        .where("id", planId)
+        .first();
+      console.log("resPlansData: ", resPlansData);
+      resPlansData.users_count -= 1;
+      resPlansData.state = "募集中";
+      console.log("resPlansData: ", resPlansData);
+
+      if (resPlansData.users_count < 1) {
+        await knex("plans").where("id", resPlansData.id).del();
+      } else {
+        await knex("plans").update(resPlansData).where("id", resPlansData.id);
+      }
+      res.status(200).json(resPlansData);
+    } catch (e) {
+      console.log(e);
+      res.status(406).json(e);
+    }
+  } else {
+    res.status(406).json({ error: "そのプランは存在しません" });
+  }
+});
 export default router;
