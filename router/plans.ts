@@ -11,8 +11,6 @@ router.get("/", async (req: express.Request, res: express.Response) => {
 router.post("/", async (req: express.Request, res: express.Response) => {
   const userId = req.body.user_id;
   const date = req.body.date;
-  console.log("userId", userId);
-  console.log("date: ", date);
 
   type ResDataObj = {
     id: number;
@@ -25,12 +23,9 @@ router.post("/", async (req: express.Request, res: express.Response) => {
     .where("date", date)
     .andWhere("state", "募集中")
     .first();
-  // count up
-  let updateData;
 
   if (resData) {
     console.log(`plan_id${resData.id} の部屋に参加します`);
-    console.log("resData: ", resData);
     resData.users_count += 1;
     if (resData.users_count === 4) {
       resData.state = "終了";
@@ -47,7 +42,6 @@ router.post("/", async (req: express.Request, res: express.Response) => {
       state: "募集中",
       users_count: 1,
     };
-    console.log("newPlans: ", newPlans);
     await knex("plans").insert(newPlans);
     res.status(200).json(newPlans);
   }
