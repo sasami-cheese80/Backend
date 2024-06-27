@@ -1,4 +1,5 @@
 import express from "express";
+// @ts-ignore
 import cors from "cors";
 import router from "./router/index";
 
@@ -8,7 +9,7 @@ const app: express.Express = express();
 // If you have more origins you would like to add, you can add them to the array below.
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://megry-app-88b135b9cdab.herokuapp.com/",
+  // "https://megry-app-88b135b9cdab.herokuapp.com/",
 ];
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
