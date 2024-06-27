@@ -8,4 +8,11 @@ router.get("/", async (req: express.Request, res: express.Response) => {
   res.send(data);
 });
 
+router.post("/", async (req: express.Request, res: express.Response) => {
+  console.log("users POSTを受け付けました");
+  console.log("こんにちは");
+  const data = await knex("users").select();
+  res.json(data);
+});
+
 export default router;
