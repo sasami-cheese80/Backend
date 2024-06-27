@@ -4,8 +4,24 @@ const router = express.Router();
 
 //一覧取得
 router.get("/", async (req: express.Request, res: express.Response) => {
-  const data = await knex("users").select();
-  res.send(data);
+  console.log("users GETを受け付けました");
+  const reqData = await knex("users").select();
+  res.send(reqData);
+});
+
+router.get("/:id", async (req: express.Request, res: express.Response) => {
+  console.log("users GET(firebase_id)を受け付けました");
+  const firebaseId = req.params.id;
+  const reqData = await knex("users")
+    .select()
+    .where("firebase_id", firebaseId)
+    .first();
+
+  if (reqData) {
+    res.status(200).json(reqData);
+  } else {
+    res.status(406).json({ error: "アカウントが見つかりませんでした" });
+  }
 });
 
 router.post("/", async (req: express.Request, res: express.Response) => {
@@ -32,6 +48,13 @@ router.delete("/", async (req: express.Request, res: express.Response) => {
   } else {
     res.status(406).json({ error: "IDが存在しません" });
   }
+});
+
+router.patch("/", async (req: express.Request, res: express.Response) => {
+  console.log("users PATCHを受け付けました");
+  const reqData = req.body;
+  console.log("reqData: ", reqData);
+  res.status(200).json(reqData);
 });
 
 export default router;

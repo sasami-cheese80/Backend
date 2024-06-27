@@ -11,7 +11,7 @@ exports.up = function (knex) {
     table.string("department").notNullable();
     table.string("division").notNullable();
     table.string("address").notNullable();
-    table.string("firebaseId").notNullable();
+    table.string("firebase_id").notNullable();
   });
 };
 
