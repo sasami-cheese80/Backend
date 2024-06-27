@@ -9,7 +9,9 @@ exports.up = function (knex) {
     table.string("nickname").notNullable();
     table.string("gender").notNullable();
     table.string("department").notNullable();
+    table.string("division").notNullable();
     table.string("address").notNullable();
+    table.string("firebaseId").notNullable();
   });
 };
 

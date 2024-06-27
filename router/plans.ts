@@ -12,7 +12,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
 router.post("/", async (req: express.Request, res: express.Response) => {
   const userId = req.body.user_id;
   const date = req.body.date;
-  console.log(req.body)
+  console.log(req.body);
 
   type ResDataObj = {
     id: number;
@@ -65,10 +65,6 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 });
 
 router.delete("/", async (req: express.Request, res: express.Response) => {
-  // console.log(req.body);
-  // const userId = req.body.user_id;
-  // const planId = req.body.plan_id;
-  // console.log("planId: ", planId);
   console.log(req.query);
 
   const userId = Number(req.query.userId);
@@ -113,7 +109,5 @@ router.delete("/", async (req: express.Request, res: express.Response) => {
     res.status(406).json({ error: "そのプランは存在しません" });
   }
 });
-
-
 
 export default router;
