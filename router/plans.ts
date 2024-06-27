@@ -26,24 +26,39 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 
   if (resData) {
     console.log(`plan_id${resData.id} の部屋に参加します`);
-    resData.users_count += 1;
-    if (resData.users_count === 4) {
-      resData.state = "終了";
+    try {
+      await knex("plans_users").insert({
+        plan_id: resData.id,
+        user_id: userId,
+      });
+      resData.users_count += 1;
+      if (resData.users_count === 4) {
+        resData.state = "終了";
+      }
+      await knex("plans").update(resData).where("id", resData.id);
+      res.status(200).json(resData);
+    } catch (e) {
+      res.send(e);
     }
-    await knex("plans").update(resData).where("id", resData.id);
-    res.status(200).json(resData);
   } else {
     console.log("部屋を新規作成します");
     const lastData = await knex("plans").select().max("id").first();
     const newPlanId = lastData.max + 1;
-    const newPlans = {
-      id: newPlanId,
-      date: date,
-      state: "募集中",
-      users_count: 1,
-    };
-    await knex("plans").insert(newPlans);
-    res.status(200).json(newPlans);
+    console.log("newPlanId: ", newPlanId);
+    try {
+      const newPlans: ResDataObj = {
+        id: newPlanId,
+        date: date,
+        state: "募集中",
+        users_count: 1,
+      };
+      console.log(newPlans);
+      await knex("plans").insert(newPlans);
+      await knex("plans_users").insert({ plan_id: newPlanId, user_id: userId });
+      res.status(200).json(newPlans);
+    } catch (e) {
+      res.send(e);
+    }
   }
 });
 
