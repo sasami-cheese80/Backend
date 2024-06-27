@@ -38,7 +38,7 @@ router.post("/", async (req: express.Request, res: express.Response) => {
       await knex("plans").update(resData).where("id", resData.id);
       res.status(200).json(resData);
     } catch (e) {
-      res.send(e);
+      res.status(406).json(e);
     }
   } else {
     console.log("部屋を新規作成します");
@@ -57,7 +57,7 @@ router.post("/", async (req: express.Request, res: express.Response) => {
       await knex("plans_users").insert({ plan_id: newPlanId, user_id: userId });
       res.status(200).json(newPlans);
     } catch (e) {
-      res.send(e);
+      res.status(406).json(e);
     }
   }
 });
