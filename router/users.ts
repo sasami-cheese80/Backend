@@ -53,8 +53,20 @@ router.delete("/", async (req: express.Request, res: express.Response) => {
 router.patch("/", async (req: express.Request, res: express.Response) => {
   console.log("users PATCHを受け付けました");
   const reqData = req.body;
+  const resData = await knex("users")
+    .select()
+    .where("firebase_id", reqData.firebase_id)
+    .first();
+
   console.log("reqData: ", reqData);
-  res.status(200).json(reqData);
+  for (const key in reqData) {
+    if (key !== "firebase_id") {
+      resData[key] = reqData[key];
+    }
+  }
+  await knex("users").update(resData).where("firebase_id", reqData.firebase_id);
+  console.log("resData: ", resData);
+  res.status(200).json(resData);
 });
 
 export default router;
