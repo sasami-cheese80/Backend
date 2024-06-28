@@ -15,9 +15,8 @@ router.get(
     console.log("users GET(firebase_id)を受け付けました");
     const firebaseId = req.params.firebaseId;
     const resData = await knex("users")
-      .select()
+      .select("id")
       .where("firebase_id", firebaseId)
-      .returning("id")
       .first();
 
     if (resData) {
