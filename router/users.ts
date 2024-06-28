@@ -5,36 +5,54 @@ const router = express.Router();
 //一覧取得
 router.get("/", async (req: express.Request, res: express.Response) => {
   console.log("users GETを受け付けました");
-  const reqData = await knex("users").select();
-  res.send(reqData);
+  const resData = await knex("users").select();
+  res.send(resData);
 });
 
-router.get("/:id", async (req: express.Request, res: express.Response) => {
-  console.log("users GET(firebase_id)を受け付けました");
-  const firebaseId = req.params.id;
-  const reqData = await knex("users")
-    .select()
-    .where("firebase_id", firebaseId)
-    .first();
+router.get(
+  "/firebase_id/:firebaseId",
+  async (req: express.Request, res: express.Response) => {
+    console.log("users GET(firebase_id)を受け付けました");
+    const firebaseId = req.params.firebaseId;
+    const resData = await knex("users")
+      .select()
+      .where("firebase_id", firebaseId)
+      .returning("id")
+      .first();
 
-  if (reqData) {
-    res.status(200).json(reqData);
-  } else {
-    res.status(406).json({ error: "アカウントが見つかりませんでした" });
+    if (resData) {
+      res.status(200).json(resData);
+    } else {
+      res.status(406).json({ error: "アカウントが見つかりませんでした" });
+    }
   }
-});
+);
+router.get(
+  "/user_id/:userId",
+  async (req: express.Request, res: express.Response) => {
+    console.log("users GET(user_id)を受け付けました");
+    const userId = req.params.userId;
+    const resData = await knex("users").select().where("id", userId).first();
+
+    if (resData) {
+      res.status(200).json(resData);
+    } else {
+      res.status(406).json({ error: "アカウントが見つかりませんでした" });
+    }
+  }
+);
 
 router.post("/", async (req: express.Request, res: express.Response) => {
   console.log("users POSTを受け付けました");
   const reqData = req.body;
-  const isData = await knex("users").select().where(reqData).first();
-  if (isData) {
+  const isData = await knex("users")
+    .select()
+    .where("firebase_id", reqData.firebase_id);
+  if (isData.length) {
     res.status(406).json({ error: "すでにアカウントが存在しています" });
   } else {
     const newUserId = await knex("users").insert(reqData).returning("id");
-    res.json(
-      `${reqData.name}さんの情報は id:${newUserId[0].id} でusersに登録しました`
-    );
+    res.json(newUserId[0]);
   }
 });
 
@@ -50,23 +68,22 @@ router.delete("/", async (req: express.Request, res: express.Response) => {
   }
 });
 
-router.patch("/", async (req: express.Request, res: express.Response) => {
-  console.log("users PATCHを受け付けました");
-  const reqData = req.body;
-  const resData = await knex("users")
-    .select()
-    .where("firebase_id", reqData.firebase_id)
-    .first();
+router.patch(
+  "/:userId",
+  async (req: express.Request, res: express.Response) => {
+    console.log("users PATCHを受け付けました");
+    const userId = req.params.userId;
+    const reqData = req.body;
+    const resData = await knex("users").select().where("id", userId).first();
 
-  console.log("reqData: ", reqData);
-  for (const key in reqData) {
-    if (key !== "firebase_id") {
+    console.log("reqData: ", reqData);
+    for (const key in reqData) {
       resData[key] = reqData[key];
     }
+    await knex("users").update(resData).where("id", userId);
+    console.log("resData: ", resData);
+    res.status(200).json(resData);
   }
-  await knex("users").update(resData).where("firebase_id", reqData.firebase_id);
-  console.log("resData: ", resData);
-  res.status(200).json(resData);
-});
+);
 
 export default router;
