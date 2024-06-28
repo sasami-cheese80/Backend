@@ -56,17 +56,20 @@ router.post("/", async (req: express.Request, res: express.Response) => {
   }
 });
 
-router.delete("/", async (req: express.Request, res: express.Response) => {
-  console.log("users DELETEを受け付けました");
-  const userId = req.query.user_id;
-  const isData = await knex("users").select().where("id", userId).first();
-  if (isData) {
-    await knex("users").where("id", userId).del();
-    res.json(`id:${userId}を削除しました`);
-  } else {
-    res.status(406).json({ error: "IDが存在しません" });
+router.delete(
+  "/:userId",
+  async (req: express.Request, res: express.Response) => {
+    console.log("users DELETEを受け付けました");
+    const userId = req.params.userId;
+    const isData = await knex("users").select().where("id", userId);
+    if (isData.length) {
+      await knex("users").where("id", userId).del();
+      res.json(`id:${userId}を削除しました`);
+    } else {
+      res.status(406).json({ error: "IDが存在しません" });
+    }
   }
-});
+);
 
 router.patch(
   "/:userId",
