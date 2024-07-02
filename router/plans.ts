@@ -3,6 +3,7 @@ import express from "express";
 import { resourceLimits } from "worker_threads";
 const knex = require("../db/index");
 const router = express.Router();
+const cron = require("node-cron")
 
 router.get("/", async (req: express.Request, res: express.Response) => {
   const data = await knex("plans").select();
@@ -109,5 +110,18 @@ router.delete("/", async (req: express.Request, res: express.Response) => {
     res.status(406).json({ error: "そのプランは存在しません" });
   }
 });
+
+//--------------------------------
+// state状態の監視 時間が過ぎたら”終了”に
+cron.schedule("* * * * *", async ()=> {
+  try {
+    const now = new Date();
+    await knex("plans").where("date", "<=", now).andWhere("state", "!=", "終了")
+    .update({state: "終了"});
+  } catch (error) {
+    console.error("一括処理エラー")
+  }
+})
+//----------------------------------
 
 export default router;
