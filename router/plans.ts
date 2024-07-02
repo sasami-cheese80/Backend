@@ -35,7 +35,7 @@ router.post("/", async (req: express.Request, res: express.Response) => {
       });
       resPlansData.users_count += 1;
       if (resPlansData.users_count === 4) {
-        resPlansData.state = "終了";
+        resPlansData.state = "確定";
       }
       await knex("plans").update(resPlansData).where("id", resPlansData.id);
       res.status(200).json(resPlansData);
