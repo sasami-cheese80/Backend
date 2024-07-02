@@ -12,6 +12,8 @@ exports.up = function (knex) {
     table.string("division").notNullable();
     table.string("address").notNullable();
     table.string("firebase_id").notNullable();
+    table.string("hobby");
+    table.text("message");
   });
 };
 
