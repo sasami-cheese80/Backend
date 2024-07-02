@@ -40,6 +40,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
         "users.nickname",
         "users.gender",
         "users.department",
+        "users.division",
         "users.address"
       )
       .where("plans_users.user_id", userId);
@@ -58,6 +59,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
       "users.nickname",
       "users.gender",
       "users.department",
+      "users.division",
       "users.address"
     )
     .where("plans_users.plan_id", planId
