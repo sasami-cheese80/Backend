@@ -63,8 +63,8 @@ exports.seed = async function (knex) {
       division: "エンジン試験課",
       address: "岡崎方面",
       firebase_id: "g9mhh8YXz3dyzxBRtqgClYHb79A3",
-      hobby: "",
-      message: "",
+      hobby: "病院食が好き",
+      message: "宮沢賢治みたいな生活にあこがれてます。",
     },
     {
       id: 6,
@@ -75,8 +75,8 @@ exports.seed = async function (knex) {
       division: "DIG企画G",
       address: "岡崎方面",
       firebase_id: "JaWi2e6loSQWa6EyXR5p5CJZoeD2",
-      hobby: "",
-      message: "",
+      hobby: "毎日100キロ走ること",
+      message: "話すことが好きです。",
     },
     {
       id: 7,
@@ -87,8 +87,8 @@ exports.seed = async function (knex) {
       division: "機会部製造支援課",
       address: "岡崎方面",
       firebase_id: "8MOuClbHFpWmBf43J4T8fXP8naw1",
-      hobby: "",
-      message: "",
+      hobby: "旅行して、車中泊すること",
+      message: "話しかけないでください。",
     },
     {
       id: 8,
@@ -99,8 +99,8 @@ exports.seed = async function (knex) {
       division: "第５エンジン製造課",
       address: "岡崎方面",
       firebase_id: "1f55k85DOPewOP3pYqlBsjWROl22",
-      hobby: "",
-      message: "",
+      hobby: "寝る",
+      message: "ゲームの話以外しないでください。",
     },
   ]);
 };
