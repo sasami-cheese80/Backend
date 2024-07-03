@@ -1,13 +1,44 @@
 import { log } from "console";
 import express from "express";
+import { ParsedQs } from "qs";
 import { resourceLimits } from "worker_threads";
 const knex = require("../db/index");
 const router = express.Router();
-const cron = require("node-cron")
+const cron = require("node-cron");
+
+type ResDataObj = {
+  id: number;
+  date: string;
+  state: string;
+  users_count: number;
+};
 
 router.get("/", async (req: express.Request, res: express.Response) => {
-  const data = await knex("plans").select();
-  res.send(data);
+  const date = req.query.date as string | undefined;
+  if (date) {
+    console.log("date: ", date);
+    const beforeDate = new Date(date);
+    const afterDate = new Date(date);
+    beforeDate.setHours(beforeDate.getHours() - 1);
+    afterDate.setHours(afterDate.getHours() + 1);
+    try {
+      const data = await knex("plans")
+        .select()
+        .where("date", "<=", afterDate)
+        .andWhere("date", ">=", beforeDate);
+      data.sort((a: ResDataObj, b: ResDataObj) => (a.date < b.date ? -1 : 1));
+      console.log("候補日が見つかりました", data);
+
+      res.status(200).json(data);
+    } catch (e) {
+      console.log(e);
+      res.status(406).json([]);
+    }
+  } else {
+    const data = await knex("plans").select();
+    console.log("data", data);
+    res.json(data);
+  }
 });
 
 router.post("/", async (req: express.Request, res: express.Response) => {
@@ -15,12 +46,6 @@ router.post("/", async (req: express.Request, res: express.Response) => {
   const date = req.body.date;
   console.log(req.body);
 
-  type ResDataObj = {
-    id: number;
-    date: string;
-    state: string;
-    users_count: number;
-  };
   const resPlansData: ResDataObj = await knex("plans")
     .select()
     .where("date", date)
@@ -113,15 +138,17 @@ router.delete("/", async (req: express.Request, res: express.Response) => {
 
 //--------------------------------
 // state状態の監視 時間が過ぎたら”終了”に
-cron.schedule("* * * * *", async ()=> {
+cron.schedule("* * * * *", async () => {
   try {
     const now = new Date();
-    await knex("plans").where("date", "<=", now).andWhere("state", "!=", "終了")
-    .update({state: "終了"});
+    await knex("plans")
+      .where("date", "<=", now)
+      .andWhere("state", "!=", "終了")
+      .update({ state: "終了" });
   } catch (error) {
-    console.error("一括処理エラー")
+    console.error("一括処理エラー");
   }
-})
+});
 //----------------------------------
 
 export default router;
