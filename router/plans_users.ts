@@ -19,7 +19,8 @@ router.get("/all", async (req: express.Request, res: express.Response) => {
       "users.department",
       "users.address",
       "users.hobby",
-      "users.message"
+      "users.message",
+      "users.tags"
     );
   res.send(data);
 });
@@ -45,7 +46,8 @@ router.get("/", async (req: express.Request, res: express.Response) => {
         "users.division",
         "users.address",
         "users.hobby",
-        "users.message"
+        "users.message",
+        "users.tags"
       )
       .where("plans_users.user_id", userId);
   } else {
@@ -66,7 +68,8 @@ router.get("/", async (req: express.Request, res: express.Response) => {
         "users.division",
         "users.address",
         "users.hobby",
-        "users.message"
+        "users.message",
+        "users.tags"
       )
       .where("plans_users.plan_id", planId);
   }
