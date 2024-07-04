@@ -15,5 +15,8 @@ exports.seed = async function (knex) {
     { plan_id: 2, user_id: 4 },
     { plan_id: 3, user_id: 1 },
     { plan_id: 3, user_id: 2 },
+    { plan_id: 4, user_id: 1 },
+    { plan_id: 4, user_id: 6 },
+    { plan_id: 4, user_id: 8 },
   ]);
 };

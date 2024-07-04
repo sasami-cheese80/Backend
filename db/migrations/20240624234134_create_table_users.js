@@ -14,6 +14,7 @@ exports.up = function (knex) {
     table.string("firebase_id").notNullable();
     table.string("hobby");
     table.text("message");
+    table.specificType("tags", "text ARRAY");
   });
 };
 
