@@ -67,7 +67,7 @@ exports.seed = async function (knex) {
       division: "エンジン試験課",
       address: "岡崎方面",
       firebase_id: "g9mhh8YXz3dyzxBRtqgClYHb79A3",
-      hobby: "病院食が好き",
+      hobby: "運動",
       message: "宮沢賢治みたいな生活にあこがれてます。",
       tags: ["運動", "自転車"],
     },
