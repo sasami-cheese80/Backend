@@ -13,10 +13,16 @@ type ResDataObj = {
   users_count: number;
 };
 
+type plansUsersObj = {
+  id: number;
+  plan_id: number;
+  user_id: number;
+};
+
 router.get("/", async (req: express.Request, res: express.Response) => {
   const date = req.query.date as string | undefined;
+  const userId = req.query.userId as string | undefined;
   if (date) {
-    console.log("date: ", date);
     const beforeDate = new Date(date);
     const afterDate = new Date(date);
     beforeDate.setHours(beforeDate.getHours() - 1);
@@ -25,11 +31,21 @@ router.get("/", async (req: express.Request, res: express.Response) => {
       const data = await knex("plans")
         .select()
         .where("date", "<=", afterDate)
-        .andWhere("date", ">=", beforeDate);
+        .andWhere("date", ">=", beforeDate)
+        .andWhere("state", "募集中");
       data.sort((a: ResDataObj, b: ResDataObj) => (a.date < b.date ? -1 : 1));
       console.log("候補日が見つかりました", data);
 
-      res.status(200).json(data);
+      const myPlans: plansUsersObj[] = await knex("plans_users")
+        .select()
+        .where("user_id", userId);
+      const myPlansId = myPlans.map((obj: plansUsersObj) => obj.plan_id);
+      const newData = data.filter(
+        (obj: ResDataObj) => !myPlansId.includes(obj.id)
+      );
+      console.log("newData: ", newData);
+
+      res.status(200).json(newData);
     } catch (e) {
       console.log(e);
       res.status(406).json([]);
