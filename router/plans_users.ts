@@ -25,10 +25,14 @@ router.get("/all", async (req: express.Request, res: express.Response) => {
   res.send(data);
 });
 router.get("/", async (req: express.Request, res: express.Response) => {
+  console.log("plans_usersを受け付けました");
+
   const userId = Number(req.query.user_id);
   const planId = Number(req.query.plan_id);
   let data;
   if (userId) {
+    console.log("homeに予定を表示します");
+    console.log("userId:", userId);
     data = await knex("plans_users")
       .join("plans", "plans.id", "=", "plans_users.plan_id")
       .join("users", "users.id", "=", "plans_users.user_id")
@@ -51,6 +55,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
       )
       .where("plans_users.user_id", userId);
   } else {
+    console.log(`plan_id:${planId}で相乗りメンバーを探します`);
     data = await knex("plans_users")
       .join("plans", "plans.id", "=", "plans_users.plan_id")
       .join("users", "users.id", "=", "plans_users.user_id")
