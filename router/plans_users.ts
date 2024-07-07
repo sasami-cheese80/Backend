@@ -18,6 +18,7 @@ router.get("/all", async (req: express.Request, res: express.Response) => {
       "users.gender",
       "users.department",
       "users.address",
+      "users.addressOfHouse",
       "users.hobby",
       "users.message",
       "users.tags"
@@ -49,6 +50,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
         "users.department",
         "users.division",
         "users.address",
+        "users.addressOfHouse",
         "users.hobby",
         "users.message",
         "users.tags"
@@ -72,6 +74,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
         "users.department",
         "users.division",
         "users.address",
+        "users.addressOfHouse",
         "users.hobby",
         "users.message",
         "users.tags"
