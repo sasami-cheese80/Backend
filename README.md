@@ -1,14 +1,18 @@
 # Backend
 
-## Ver01
+## 本番環境の URL
 
-サーバー起動ができる最小限実装
+バックエンドのみ Heroku にデプロイしています。  
+BaseURL: https://megry-app-88b135b9cdab.herokuapp.com  
+※2024 年 7 月 26 日にて公開終了
 
 ## 使用方法
 
 1.自身の PC にデータベースを作成する  
 `createdb megrydb`  
-2.env ファイルを作成する  
+2. backend リポジトリを PC に clone する  
+`git clone {URL or SSH}`  
+2.clone したディレクトリに移動して env ファイルを作成する  
 `touch .env`  
 3.env ファイルに環境変数を設定する　　　
 `DB_NAME={db name}`  
@@ -23,14 +27,11 @@
 
 ## エンドポイントの説明
 
-| エンドポイント | メソッド |                    response                    |
-| :------------: | :------: | :--------------------------------------------: |
-|     /users     |   GET    | [{id,name,nickname,gender,department,address}] |
-|     /plans     |   GET    |              [{id,date,user_id}]               |
+<image src="./Images/エンドポイント.png" />
 
 ## スキーマ設計
 
-<img src="./schema.png" />
+<img src="./Images/e-r.png" />
 
 ### テーブル説明
 
@@ -40,7 +41,13 @@
     <dd>name:名前</dd>
     <dd>nickname:ニックネーム</dd>
     <dd>gender:性別（男性or女性）</dd>
-    <dd>department:所属部署名(⚪︎⚪︎部⚪︎⚪︎課)</dd>
+    <dd>department:所属部署名(⚪︎⚪︎部)</dd>
+    <dd>division:所属部署名(⚪︎⚪︎課)</dd>
+    <dd>division:所属部署名(⚪︎⚪︎課)</dd>
+    <dd>address:相乗り方面</dd>
+    <dd>addressOfHouse:おうちの住所</dd>
+    <dd>hobby:趣味</dd>
+    <dd>message:相乗りメンバーへ一言</dd>
     <dt>plans</dt>
     <dd>id:一意のid</dd>
     <dd>date:日付(2024-05-01 22:00:00)</dd>
